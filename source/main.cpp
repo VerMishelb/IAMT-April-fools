@@ -14,7 +14,6 @@ int main(int argc, char** argv) {
 		game.input();
 		game.update();
 		game.render();
-		//std::this_thread::sleep_for(std::chrono::milliseconds(16));
 		SDL_Delay(16);
 	}
 	fprintf_s(stdout, "Main loop ended\n");

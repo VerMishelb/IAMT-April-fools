@@ -85,7 +85,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>E:\VSLibs\SDL2_image\lib\x86;E:\VSLibs\SDL2_ttf\lib\x86;E:\VSLibs\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>HighestAvailable</UACExecutionLevel>
     </Link>
   </ItemDefinitionGroup>
@@ -107,7 +107,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>E:\VSLibs\SDL2_image\lib\x86;E:\VSLibs\SDL2_ttf\lib\x86;E:\VSLibs\SDL2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>HighestAvailable</UACExecutionLevel>
     </Link>
   </ItemDefinitionGroup>
@@ -126,7 +126,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>E:\VSLibs\SDL2_image\lib\x64;E:\VSLibs\SDL2_ttf\lib\x64;E:\VSLibs\SDL2\lib\x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>HighestAvailable</UACExecutionLevel>
     </Link>
   </ItemDefinitionGroup>
@@ -148,21 +148,29 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>E:\VSLibs\SDL2_image\lib\x64;E:\VSLibs\SDL2_ttf\lib\x64;E:\VSLibs\SDL2\lib\x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>HighestAvailable</UACExecutionLevel>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\BulletSpawner.h" />
     <ClInclude Include="include\CI72Locker.h" />
+    <ClInclude Include="include\TextureAtlas.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="include\TaskmgrKiller.h" />
     <ClInclude Include="include\Types.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\Player.h" />
+    <ClCompile Include="include\Texture.h" />
+    <ClCompile Include="source\BulletSpawner.cpp" />
     <ClCompile Include="source\CI72Locker.cpp" />
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\Player.cpp" />
     <ClCompile Include="source\TaskmgrKiller.cpp" />
+    <ClCompile Include="source\Texture.cpp" />
+    <ClCompile Include="source\TextureAtlas.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CI72Locker.rc" />

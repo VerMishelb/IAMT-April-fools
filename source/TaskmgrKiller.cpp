@@ -61,7 +61,7 @@ namespace TaskmgrKiller {
                 }
             }
         }
-
+        return 0;
     }
 
 }

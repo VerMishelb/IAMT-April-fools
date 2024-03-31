@@ -5,8 +5,19 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include "Types.h"
+#include "Player.h"
 
 #define DISABLE_FULL_SCREEN_LOCK
+
+struct Input {
+    bool mouseHeld{ false };
+    SDL_Point mousePosition;
+    bool exit{ false };
+
+};
+
+class Game;
+extern Game* game;
 
 class Game {
 private:
@@ -15,8 +26,11 @@ private:
 	SDL_Window* window;
     TTF_Font* font;
     SDL_Surface* text;
+    Player player;
 
 public:
+    Input input_state;
+    BulletSpawner bulletSpawner;
 	Game();
 	~Game();
 	
@@ -26,6 +40,10 @@ public:
 	int input();
 	int update();
 	int render();
+
+    SDL_Rect getWindowDimensions();
+
+    SDL_Renderer* getRenderer();
 
 	int terminate();
 
