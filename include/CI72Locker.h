@@ -1,14 +1,14 @@
 #ifndef CI72Locker_h_
 #define CI72Locker_h_
 
-#include "resource.h"
+#include "../resource.h"
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include "Types.h"
 
 class Game {
 private:
-	Vector2i window_dimensions;
+	SDL_Rect window_dimensions;
 	SDL_Renderer* renderer;
 	SDL_Window* window;
     TTF_Font* font;

@@ -21,24 +21,24 @@
     <ClInclude Include="Resource.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="CI72Locker.h">
+    <ClInclude Include="include\CI72Locker.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Types.h">
+    <ClInclude Include="include\Types.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="TaskmgrKiller.h">
+    <ClInclude Include="include\TaskmgrKiller.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CI72Locker.cpp">
+    <ClCompile Include="source\CI72Locker.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="source\main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="TaskmgrKiller.cpp">
+    <ClCompile Include="source\TaskmgrKiller.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

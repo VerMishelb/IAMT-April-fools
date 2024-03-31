@@ -1,4 +1,4 @@
-#include "TaskmgrKiller.h"
+#include "../include/TaskmgrKiller.h"
 
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX

