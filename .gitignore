@@ -1,0 +1,6 @@
+/CI72Locker/
+/x64/
+/x86/
+.vs/
+*.[oa]
+*.exe
