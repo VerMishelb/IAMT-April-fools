@@ -6,6 +6,8 @@
 #include <SDL_ttf.h>
 #include "Types.h"
 
+#define DISABLE_FULL_SCREEN_LOCK
+
 class Game {
 private:
 	SDL_Rect window_dimensions;

@@ -33,6 +33,10 @@ int Game::init() {
     }
     SDL_GetDisplayBounds(0, &window_dimensions);
 
+#ifdef DISABLE_FULL_SCREEN_LOCK
+    window_dimensions = { 50, 50, 800, 600 };
+#endif
+
     window = SDL_CreateWindow("IAMT 3.5.2 GUI",
         window_dimensions.x, window_dimensions.y, window_dimensions.w, window_dimensions.h,
         SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS | SDL_WINDOW_ALWAYS_ON_TOP  /*SDL_WINDOW_FULLSCREEN*/);
@@ -79,14 +83,15 @@ int Game::input() {
             break;
         case SDL_WINDOWEVENT:
             if (evt.window.event == SDL_WINDOWEVENT_FOCUS_LOST || evt.window.event == SDL_WINDOWEVENT_LEAVE) {
+#ifndef DISABLE_FULL_SCREEN_LOCK
                 SDL_RaiseWindow(window);
+#endif
             }
             if (evt.window.event == SDL_WINDOWEVENT_MINIMIZED || evt.window.event == SDL_WINDOWEVENT_MAXIMIZED) {
+#ifndef DISABLE_FULL_SCREEN_LOCK
                 SDL_RestoreWindow(window);
+#endif
             }
-            break;
-        case SDL_MOUSEMOTION:
-            
             break;
         default:
             break;
@@ -101,23 +106,22 @@ int Game::update() {
     int x = 0, y = 0;
     SDL_GetGlobalMouseState(&x, &y);
 
+#ifndef DISABLE_FULL_SCREEN_LOCK
     if (x > window_dimensions.x + window_dimensions.w - 2) {
         x = window_dimensions.x + 1;
-     
     }
     if (x < window_dimensions.x + 1) {
         x = window_dimensions.x + window_dimensions.w - 2;
-     
     }
 
     if (y > window_dimensions.y + window_dimensions.h - 2) {
         y = window_dimensions.y + 1;
-     
     }
     if (y < window_dimensions.y + 1) {
         y = window_dimensions.y + window_dimensions.h - 2;
     }
-        SDL_WarpMouseGlobal(x, y);
+    SDL_WarpMouseGlobal(x, y);
+#endif
     return 0;
 }
 
