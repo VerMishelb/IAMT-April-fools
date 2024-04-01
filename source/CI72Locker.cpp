@@ -97,7 +97,7 @@ int Game::init() {
 
     music_player.playLooped();
 
-    level_loader.changeState(LevelLoader::State::TITLE);
+    level_loader.changeState(LevelLoader::State::INTRO);
 
     return 0;
 }

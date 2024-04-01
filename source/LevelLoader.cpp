@@ -10,13 +10,29 @@ const char* testtextline =
 " so if you care about data security then please release the damn program, it's already unbearable, what do you think you are?"
 " I advise you not to even try anything\n";
 
+const char* textlines_intro[] = {
+    "hmm...",
+    "this doesn't look very IAMT",
+    "Where are the buttons?",
+    "Where are the files if they are exist?",
+    "...",
+    "ok how do I leave"
+};
+
+int intro_text_delay_cnt = 0;
+int intro_text_current = 0;
+
 bool canChangeLevel = true;
 
 void LevelLoader::update() {
     //fprintf_s(stdout, "LevelLoader::update(), state = %d\n", state);
     switch (state) {
-    case State::INTRO:
+    case State::INTRO: {
+        ++intro_text_delay_cnt;
+        if (intro_text_delay_cnt > 60 * 4) { ++intro_text_current; intro_text_delay_cnt = 0; }
+        if (intro_text_current == 6) { changeState(State::TITLE); }
         break;
+    }
     case State::TITLE: {
         if (!(game->input_state.mouseHeld || game->input_state.enter)) {
             canChangeLevel = true;
@@ -58,8 +74,13 @@ void LevelLoader::update() {
 void LevelLoader::render() {
     //fprintf_s(stdout, "LevelLoader::render(), state = %d\n", state);
     switch (state) {
-    case State::INTRO:
+    case State::INTRO: {
+        game->drawText(
+            game->font,
+            textlines_intro[intro_text_current],
+            { 20, 25, game->getWindowDimensions().w - 20, game->getWindowDimensions().h - 25 });
         break;
+    }
     case State::TITLE: {
         game->drawText(game->font_impact, "CHICKEN INVADERS\n72: IAMT 3.5.2: GUI:\nNO", { game->getWindowDimensions().w / 4, game->getWindowDimensions().h / 4, game->getWindowDimensions().w / 4 * 3 });
         game->drawText(game->font, "Happy april fools, fools\ngood luck closing this lmao. Now I am hte virus.\n\n(psst.. )you can press left mouse button to go to the next level\n\n\n\n\noh and you can change\nvolume with + and - if it's too loud", { game->getWindowDimensions().w / 4, game->getWindowDimensions().h / 3 * 2 });
@@ -90,6 +111,7 @@ void LevelLoader::loadState(int state) {
     this->state = state;
     switch (state) {
     case State::INTRO:
+        //TODO: Add intro music
         break;
     case State::TITLE:
         break;
@@ -121,6 +143,8 @@ void LevelLoader::unloadState() {
     //fprintf_s(stdout, "unloadState()\n");
     switch (state) {
     case State::INTRO:
+        intro_text_current = 0;
+        intro_text_delay_cnt = 0;
         break;
     case State::TITLE:
         break;

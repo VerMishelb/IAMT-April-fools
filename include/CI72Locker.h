@@ -11,7 +11,7 @@
 #include "../include/MusicPlayer.h"
 #include "../include/LevelLoader.h"
 
-#define DISABLE_FULL_SCREEN_LOCK
+//#define DISABLE_FULL_SCREEN_LOCK
 
 struct Input {
     bool mouseHeld{ false };
