@@ -1,6 +1,4 @@
 #include "../include/CI72Locker.h"
-#include <thread>
-#include <chrono>
 #include <iostream>
 
 int main(int argc, char** argv) {
@@ -12,7 +10,7 @@ int main(int argc, char** argv) {
     }
 	while (!game.shutdown) {
 		game.input();
-		game.update();
+		game.update(1./60.);
 		game.render();
 		SDL_Delay(16);
 	}

@@ -2,14 +2,16 @@
 #include <stdio.h>
 #include <SDL_ttf.h>
 #include <SDL_image.h>
+#include <SDL_mixer.h>
 #include "../include/TaskmgrKiller.h"
 #include "../include/Texture.h"
+#include <time.h>
 
-const char* testtextline = "DUE to your greed and selfishness people are now arguing with whoever they can, what I can tell you right now is this: I will do anything to get an unlocked version of IAMT I am even capable of hacking someone's computer to do it even yours so if you care about data security then please release the damn program, it's already unbearable, what do you think you are? I advise you not to even try anything\n";
+
 Game *game = nullptr;
 
 
-Game::Game() : window_dimensions({0, 0, 800, 600}), renderer(nullptr), window(nullptr), shutdown(false), text(nullptr), font(nullptr) {
+Game::Game() : window_dimensions({0, 0, 800, 600}), renderer(nullptr), window(nullptr), shutdown(false), font(nullptr), font_impact(nullptr) {
     if (!game) {
         game = this;
     }
@@ -20,13 +22,14 @@ Game::~Game() {}
 
 
 int Game::init() {
+    srand(time(NULL));
     if (!SDL_SetHint(SDL_HINT_ALLOW_ALT_TAB_WHILE_GRABBED, "0")) {
         fprintf_s(stdout, "Couldn't set alt tab hint.\n");
     }
     if (!SDL_SetHint(SDL_HINT_FORCE_RAISEWINDOW, "1")) {
         fprintf_s(stdout, "Couldn't set force raise window hint.\n");
     }
-    int init_return_val = SDL_Init(SDL_INIT_VIDEO);
+    int init_return_val = SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 	if (init_return_val != 0) {
 		fprintf_s(stdout, "%d SDL Error %d: %s\n", __LINE__, init_return_val, SDL_GetError());
 		shutdown = true;
@@ -45,12 +48,17 @@ int Game::init() {
 
     window = SDL_CreateWindow("IAMT 3.5.2 GUI",
         window_dimensions.x, window_dimensions.y, window_dimensions.w, window_dimensions.h,
-        SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS | SDL_WINDOW_ALWAYS_ON_TOP  /*SDL_WINDOW_FULLSCREEN*/);
+        SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS
+#ifndef DISABLE_FULL_SCREEN_LOCK
+        | SDL_WINDOW_ALWAYS_ON_TOP
+#endif
+    );
     if (!window) {
         fprintf_s(stdout, "%d SDL Error: %s\n", __LINE__, SDL_GetError());
         shutdown = true;
         return -1;
     }
+    SDL_ShowCursor(SDL_DISABLE);
 
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -67,20 +75,35 @@ int Game::init() {
         return -1;
     }
 
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) != 0) {
+        fprintf_s(stdout, "%d SDL_mixer Error: %s\n", __LINE__, Mix_GetError());
+        shutdown = true;
+    }
+    music_player.init();
+
 
     font = TTF_OpenFont("C:\\Windows\\Fonts\\vgasysr.fon", 0);
     if (!font) {
-        fprintf_s(stdout, "Could not open vgasysr.fon\n");
+        fprintf_s(stdout, "%s\n", TTF_GetError());
+        return -1;
+    }
+    font_impact = TTF_OpenFont("C:\\Windows\\Fonts\\impact.ttf", 72);
+    if (!font_impact) {
+        fprintf_s(stdout, "%s\n", TTF_GetError());
         return -1;
     }
 
-    Texture::loadAtlasSurface();
-    Texture::loadTexture(Texture::ID::SPR_BACKGROUND);
+    Texture::loadAtlas();
+
+    music_player.playLooped();
+
+    level_loader.changeState(LevelLoader::State::TITLE);
 
     return 0;
 }
 
 int Game::input() {
+    //fprintf_s(stdout, "Game::input()\n");
     SDL_Event evt;
     
 
@@ -94,6 +117,29 @@ int Game::input() {
         case SDL_KEYDOWN:
             if (evt.key.keysym.sym == SDLK_ESCAPE) {
                 input_state.exit = true;
+            }
+            if (evt.key.keysym.sym == SDLK_MINUS || evt.key.keysym.sym == SDLK_KP_MINUS) {
+                music_player.changeVolume(-16);
+            }
+            if (evt.key.keysym.sym == SDLK_EQUALS || evt.key.keysym.sym == SDLK_KP_PLUS) {
+                music_player.changeVolume(16);
+            }
+            if (evt.key.keysym.sym == SDLK_F5) {
+                input_state.dbg_reload = true;
+            }
+            if (evt.key.keysym.sym == SDLK_KP_ENTER || evt.key.keysym.sym == SDLK_RETURN) {
+                input_state.enter = true;
+            }
+            break;
+        case SDL_KEYUP:
+            if (evt.key.keysym.sym == SDLK_ESCAPE) {
+                input_state.exit = false;
+            }
+            if (evt.key.keysym.sym == SDLK_F5) {
+                input_state.dbg_reload = false;
+            }
+            if (evt.key.keysym.sym == SDLK_KP_ENTER || evt.key.keysym.sym == SDLK_RETURN) {
+                input_state.enter = false;
             }
             break;
         case SDL_WINDOWEVENT:
@@ -119,8 +165,8 @@ int Game::input() {
     return 0;
 }
 
-int Game::update() {
-    // Make a separate process for killing task manager every second or so
+int Game::update(float delta) {
+    //fprintf_s(stdout, "Game::update()\n");
 #ifndef DISABLE_FULL_SCREEN_LOCK
     bool hasToWarp = false;
     if (input_state.mousePosition.x > window_dimensions.x + window_dimensions.w - 2) {
@@ -147,21 +193,17 @@ int Game::update() {
         shutdown = true;
     }
 
+    level_loader.update();
 
-    player.update();
-    bulletSpawner.update();
     return 0;
 }
 
 int Game::render() {
+    //fprintf_s(stdout, "Game::render()\n");
     SDL_SetRenderDrawColor(renderer, 0, 0, 127, 255);
     SDL_RenderClear(renderer);
 
-    text = TTF_RenderUTF8_Solid_Wrapped(font, testtextline, { 0xFF, 0xFF, 0xFF, 0xFF }, window_dimensions.w);
-    SDL_Texture* text_texture = SDL_CreateTextureFromSurface(renderer, text);
-    SDL_Rect text_rect{ 0, 0, 10, 10};
-    SDL_QueryTexture(text_texture, NULL, NULL, &text_rect.w, &text_rect.h);
-
+    // Render background
     SDL_Rect spriteRect = {
                0,0,
                window_dimensions.w,
@@ -182,20 +224,22 @@ int Game::render() {
         }
     }
 
-    SDL_RenderCopy(renderer, text_texture, NULL, &text_rect);
-    player.render();
-    bulletSpawner.render();
+    level_loader.render();
+
+   /* char fps_text[8] = { 0 };
+
+    _ultoa_s(SDL_GetTicks64(), fps_text, 10);
+    drawText(font_impact, fps_text, {10, 200, 500});*/
 
     SDL_RenderPresent(renderer);
-
-    SDL_FreeSurface(text);
-    SDL_DestroyTexture(text_texture);
     return 0;
 }
 
 int Game::terminate() {
 	fprintf_s(stdout, "Shutting down...\n");
     TTF_Quit();
+    IMG_Quit();
+    Mix_Quit();
     SDL_Quit();
     return 0;
 }
@@ -206,4 +250,18 @@ SDL_Renderer* Game::getRenderer() {
 
 SDL_Rect Game::getWindowDimensions() {
     return window_dimensions;
+}
+
+SDL_Window* Game::getWindow() {
+    return window;
+}
+
+void Game::drawText(TTF_Font* font, std::string text_, SDL_Rect position) {
+    SDL_Surface* text = TTF_RenderUTF8_Solid_Wrapped(font, text_.c_str(), {0xFF, 0xFF, 0xFF, 0xFF}, position.w);
+    SDL_Texture* text_texture = SDL_CreateTextureFromSurface(renderer, text);
+    SDL_QueryTexture(text_texture, NULL, NULL, &position.w, &position.h);
+
+    SDL_RenderCopy(renderer, text_texture, NULL, &position);
+    SDL_DestroyTexture(text_texture);
+    SDL_FreeSurface(text);
 }

@@ -5,12 +5,10 @@
 
 
 namespace Texture {
-    SDL_Surface* loadAtlasSurface();
-    SDL_Texture* loadTexture(int texture_id);
+    SDL_Texture* loadAtlas();
 
     extern SDL_Texture* atlas_texture;
     extern SDL_Surface* atlas_surface;
-    extern SDL_RWops* atlas_file;
     extern SDL_Rect texture_rect[];
 
     enum ID {
