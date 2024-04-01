@@ -20,6 +20,8 @@ void BulletSpawner::spawnIon(SDL_FPoint pos) {
     bullets[next_bullet].velocity = { 0, -10 };
     bullets[next_bullet].isEgg = false;
     bullets[next_bullet].isCash = false;
+    bullets[next_bullet].hitcircle = hitcircles[ION];
+    bullets[next_bullet].hitcircle_offset = { hitcircles[ION].x, hitcircles[ION].y };
     ++next_bullet;
     if (next_bullet > MAX_BULLETS - 1) { next_bullet = 0; }
 }
@@ -31,6 +33,8 @@ void BulletSpawner::spawnEgg(SDL_FPoint pos, SDL_FPoint velocity) {
     bullets[next_bullet].velocity = velocity;
     bullets[next_bullet].isEgg = true;
     bullets[next_bullet].isCash = false;
+    bullets[next_bullet].hitcircle = hitcircles[EGG];
+    bullets[next_bullet].hitcircle_offset = { hitcircles[EGG].x, hitcircles[EGG].y };
     ++next_bullet;
     if (next_bullet > MAX_BULLETS - 1) { next_bullet = 0; }
 }
@@ -42,6 +46,8 @@ void BulletSpawner::spawnCash(SDL_FPoint pos, SDL_FPoint velocity) {
     bullets[next_bullet].velocity = velocity;
     bullets[next_bullet].isEgg = false;
     bullets[next_bullet].isCash = true;
+    bullets[next_bullet].hitcircle = hitcircles[CASH];
+    bullets[next_bullet].hitcircle_offset = {hitcircles[CASH].x, hitcircles[CASH].y};
     ++next_bullet;
     if (next_bullet > MAX_BULLETS - 1) { next_bullet = 0; }
 }
@@ -92,11 +98,30 @@ void BulletSpawner::update() {
         }
         bullets[i].position.x += bullets[i].velocity.x;
         bullets[i].position.y += bullets[i].velocity.y;
+        bullets[i].hitcircle.x = bullets[i].position.x + bullets[i].hitcircle_offset.x;
+        bullets[i].hitcircle.y = bullets[i].position.y + bullets[i].hitcircle_offset.y;
     }
     ++tick;
     if (tick > 1) {
         tick = 0;
         ++animation_frame;
         if (animation_frame >= 8) { animation_frame = 0; };
+    }
+}
+
+void BulletSpawner::cashCollided(int id) {
+    bullets[id].active = false;
+    // TODO: Play the sound
+    // Increase score? Who would be reading it?
+}
+
+void BulletSpawner::eggCollided(int id) {
+    bullets[id].active = false;
+    // TODO: Play the sound?
+}
+
+void BulletSpawner::cleanup() {
+    for (int i = 0; i < MAX_BULLETS; ++i) {
+        bullets[i].active = false;
     }
 }

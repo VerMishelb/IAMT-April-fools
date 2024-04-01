@@ -3,7 +3,7 @@
 #include "../include/Texture.h"
 #include <stdio.h>
 
-Player::Player() : position({ 4,0 }), shootingCooldown(0), hitcircle({ 0, 0, 5 }), hitcircle_offset({24, 17}) {}
+Player::Player() : position({ 4,0 }), shootingCooldown(0), hitcircle({ 0, 0, 12 }), hitcircle_offset({24, 17}) {}
 Player::~Player() {}
 
 void Player::render() {
@@ -41,8 +41,26 @@ void Player::update() {
 
         // May God forgive me for such inefficient collision checks but I literally have no time
         for (int i = 0; i < MAX_CHICKENS; ++i) {
-            if (game->chicken_handler.chickens[i].active && collides(this->hitcircle, game->chicken_handler.chickens[i].hitcircle)) {
+            if (game->chicken_handler.chickens[i].active &&
+                collides(this->hitcircle, game->chicken_handler.chickens[i].hitcircle))
+            {
+                fprintf_s(stdout, "collidded with chickens[%d]\n", i);
                 isDead = true;
+            }
+        }
+        for (int i = 0; i < MAX_BULLETS; ++i) {
+            if (game->bulletSpawner.bullets[i].active &&
+                collides(this->hitcircle, game->bulletSpawner.bullets[i].hitcircle))
+            {
+                if (game->bulletSpawner.bullets[i].isEgg) {
+                    fprintf_s(stdout, "collidded with egg[%d]\n", i);
+                    game->bulletSpawner.eggCollided(i);
+                    isDead = true;
+                }
+                else if (game->bulletSpawner.bullets[i].isCash) {
+                    fprintf_s(stdout, "collided with cash[%d]\n", i);
+                    game->bulletSpawner.cashCollided(i);
+                }
             }
         }
     }

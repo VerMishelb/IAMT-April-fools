@@ -10,18 +10,24 @@ const char* testtextline =
 " so if you care about data security then please release the damn program, it's already unbearable, what do you think you are?"
 " I advise you not to even try anything\n";
 
+bool canChangeLevel = true;
+
 void LevelLoader::update() {
     //fprintf_s(stdout, "LevelLoader::update(), state = %d\n", state);
     switch (state) {
     case State::INTRO:
         break;
-    case State::TITLE:
-        if (game->input_state.mouseHeld || game->input_state.enter) {
+    case State::TITLE: {
+        if (!(game->input_state.mouseHeld || game->input_state.enter)) {
+            canChangeLevel = true;
+        }
+        if ((game->input_state.mouseHeld || game->input_state.enter) && canChangeLevel) {
             game->input_state.enter = false;
             changeState(State::LVL_CHICKENS);
         }
         break;
-    case State::LVL_CHICKENS:
+    }
+    case State::LVL_CHICKENS: {
         player.update();
         if (!(player.canShoot || game->input_state.mouseHeld)) {
             player.canShoot = true;
@@ -35,7 +41,11 @@ void LevelLoader::update() {
         if (game->input_state.enter && player.isDead) {
             changeState(State::TITLE);
         }
+        if (game->chicken_handler.level_finished && !(player.isDead)) {
+            changeState(State::LVL_DICK_CLARK);
+        }
         break;
+    }
     case State::LVL_DICK_CLARK:
         break;
     case State::LVL_USELESS:
@@ -50,20 +60,22 @@ void LevelLoader::render() {
     switch (state) {
     case State::INTRO:
         break;
-    case State::TITLE:
+    case State::TITLE: {
         game->drawText(game->font_impact, "CHICKEN INVADERS\n72: IAMT 3.5.2: GUI:\nNO", { game->getWindowDimensions().w / 4, game->getWindowDimensions().h / 4, game->getWindowDimensions().w / 4 * 3 });
         game->drawText(game->font, "Happy april fools, fools\ngood luck closing this lmao. Now I am hte virus.\n\n(psst.. )you can press left mouse button to go to the next level\n\n\n\n\noh and you can change\nvolume with + and - if it's too loud", { game->getWindowDimensions().w / 4, game->getWindowDimensions().h / 3 * 2 });
         break;
-    case State::LVL_CHICKENS:
+    }
+    case State::LVL_CHICKENS: {
         player.render();
         game->bulletSpawner.render();
         game->chicken_handler.render();
         game->drawText(game->font, testtextline, { 20, 25, game->getWindowDimensions().w - 20, game->getWindowDimensions().h - 25 });
 
         if (player.isDead) {
-            game->drawText(game->font_impact, "sir you have failed miserably", { game->getWindowDimensions().w / 2, game->getWindowDimensions().w / 3, game->getWindowDimensions().w / 2, game->getWindowDimensions().h/2 });
+            game->drawText(game->font_impact, "sir you have failed miserably", { game->getWindowDimensions().w / 2, game->getWindowDimensions().w / 3, game->getWindowDimensions().w / 2, game->getWindowDimensions().h / 2 });
         }
         break;
+    }
     case State::LVL_DICK_CLARK:
         break;
     case State::LVL_USELESS:
@@ -93,6 +105,7 @@ void LevelLoader::loadState(int state) {
                 float(rand() % game->getWindowDimensions().h / 2) };
             game->chicken_handler.spawn(new_pos, 3);
         }
+        game->chicken_handler.shoot_cooldown = 200;
         break;
     }
     case State::LVL_DICK_CLARK:
@@ -113,7 +126,9 @@ void LevelLoader::unloadState() {
         break;
     case State::LVL_CHICKENS:
         game->chicken_handler.cleanup();
+        game->bulletSpawner.cleanup();
         player.isDead = false;
+        canChangeLevel = false;
         break;
     case State::LVL_DICK_CLARK:
         break;

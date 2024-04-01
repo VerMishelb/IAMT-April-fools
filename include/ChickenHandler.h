@@ -17,12 +17,14 @@ struct Chicken {
 
 class ChickenHandler {
 private:
-    int shoot_cooldown;
     int next_chicken;
     int position_offset;
     SDL_Point hitcircle_offset = { 27,31 };
+    int active_chickens;
 
 public:
+    int shoot_cooldown;
+    bool level_finished;
     Chicken chickens[MAX_CHICKENS];
     ChickenHandler();
     ~ChickenHandler();
