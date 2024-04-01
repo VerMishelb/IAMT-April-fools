@@ -52,9 +52,10 @@ void ChickenHandler::update() {
                         if (active_chickens == 0) {
                             level_finished = true;
                         }
+                        game->music_player.playSfx(MusicPlayer::ID::SND_CHICKEN_DIE);
                     }
 
-                    // FIXME game->music_player.playSfx(MusicPlayer::ID::SND_);
+                    game->music_player.playSfx(MusicPlayer::ID::SND_CHICKEN_HIT);
                 }
             }
         }

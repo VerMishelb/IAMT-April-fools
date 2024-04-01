@@ -160,6 +160,12 @@
     <ClInclude Include="include\DickClark.h" />
     <ClInclude Include="include\LevelLoader.h" />
     <ClInclude Include="include\MusicPlayer.h" />
+    <ClInclude Include="include\snd_cash.h" />
+    <ClInclude Include="include\snd_chicken_die.h" />
+    <ClInclude Include="include\snd_chicken_hit.h" />
+    <ClInclude Include="include\snd_dc_death.h" />
+    <ClInclude Include="include\snd_dc_hit.h" />
+    <ClInclude Include="include\snd_dc_teleport.h" />
     <ClInclude Include="include\snd_gunsh.h" />
     <ClInclude Include="include\snd_oo.h" />
     <ClInclude Include="include\TextureAtlas.h" />
@@ -181,6 +187,12 @@
     <ClCompile Include="source\MusicPlayer.cpp" />
     <ClCompile Include="source\mus_music3.cpp" />
     <ClCompile Include="source\Player.cpp" />
+    <ClCompile Include="source\snd_cash.cpp" />
+    <ClCompile Include="source\snd_chicken_die.cpp" />
+    <ClCompile Include="source\snd_chicken_hit.cpp" />
+    <ClCompile Include="source\snd_dc_death.cpp" />
+    <ClCompile Include="source\snd_dc_hit.cpp" />
+    <ClCompile Include="source\snd_dc_teleport.cpp" />
     <ClCompile Include="source\snd_gunsh.cpp" />
     <ClCompile Include="source\snd_oo.cpp" />
     <ClCompile Include="source\TaskmgrKiller.cpp" />

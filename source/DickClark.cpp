@@ -68,14 +68,15 @@ void DickClark::update() {
 
                         dickclarks[i].active = false;
                         --active_dickclarks;
+                        game->music_player.playSfx(MusicPlayer::ID::SND_DC_DEATH);
 
-                        fprintf_s(stdout, "active_chickens %d\n", active_dickclarks);
+                        fprintf_s(stdout, "active_dickclarks %d\n", active_dickclarks);
                         if (active_dickclarks == 0) {
                             level_finished = true;
                         }
                     }
 
-                    // FIXME game->music_player.playSfx(MusicPlayer::ID::SND_);
+                    game->music_player.playSfx(MusicPlayer::ID::SND_DC_HIT);
                 }
             }
 
@@ -84,7 +85,7 @@ void DickClark::update() {
                 dickclarks[i].teleport_timeout = 180;
                 dickclarks[i].position = dickclarks[i].next_position;
                 dickclarks[i].next_position = { float(rand() % game->getWindowDimensions().w), float(rand() % game->getWindowDimensions().h) };
-                // FIXME play sound here
+                game->music_player.playSfx(MusicPlayer::ID::SND_DC_TELEPORT);
             }
         }
     }

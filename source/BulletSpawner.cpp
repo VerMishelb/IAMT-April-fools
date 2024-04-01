@@ -111,13 +111,13 @@ void BulletSpawner::update() {
 
 void BulletSpawner::cashCollided(int id) {
     bullets[id].active = false;
-    // TODO: Play the sound
+    game->music_player.playSfx(MusicPlayer::ID::SND_CASH);
     // Increase score? Who would be reading it?
 }
 
 void BulletSpawner::eggCollided(int id) {
     bullets[id].active = false;
-    // TODO: Play the sound?
+    game->music_player.playSfx(MusicPlayer::ID::SND_DC_DEATH);
 }
 
 void BulletSpawner::cleanup() {

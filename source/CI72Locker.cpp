@@ -1,5 +1,9 @@
 #include "../include/CI72Locker.h"
 #include <stdio.h>
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+#include <Windows.h>
+#include <SDL_syswm.h>
 #include <SDL_ttf.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
@@ -48,7 +52,7 @@ int Game::init() {
 
     window = SDL_CreateWindow("IAMT 3.5.2 GUI",
         window_dimensions.x, window_dimensions.y, window_dimensions.w, window_dimensions.h,
-        SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS
+        SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS | SDL_WINDOW_SKIP_TASKBAR
 #ifndef DISABLE_FULL_SCREEN_LOCK
         | SDL_WINDOW_ALWAYS_ON_TOP
 #endif
@@ -115,8 +119,20 @@ int Game::input() {
 #endif
             break;
         case SDL_KEYDOWN:
-            if (evt.key.keysym.sym == SDLK_ESCAPE) {
+            if (evt.key.keysym.sym == SDLK_LCTRL || evt.key.keysym.sym == SDLK_RCTRL) {
+                input_state.emergency |= EMERGENCY_CTRL;
+            }
+            if (evt.key.keysym.sym == SDLK_7 || evt.key.keysym.sym == SDLK_KP_7) {
+                input_state.emergency |= EMERGENCY_7;
+            }
+            if (evt.key.keysym.sym == SDLK_2 || evt.key.keysym.sym == SDLK_KP_2) {
+                input_state.emergency |= EMERGENCY_2;
+            }
+            if ((input_state.emergency & (EMERGENCY_2 | EMERGENCY_7 | EMERGENCY_CTRL)) == 7) {
                 input_state.exit = true;
+            }
+            else {
+                input_state.exit = false;
             }
             if (evt.key.keysym.sym == SDLK_MINUS || evt.key.keysym.sym == SDLK_KP_MINUS) {
                 music_player.changeVolume(-16);
@@ -124,7 +140,7 @@ int Game::input() {
             if (evt.key.keysym.sym == SDLK_EQUALS || evt.key.keysym.sym == SDLK_KP_PLUS) {
                 music_player.changeVolume(16);
             }
-            if (evt.key.keysym.sym == SDLK_F5) {
+            if (evt.key.keysym.sym == SDLK_F2) {
                 input_state.dbg_reload = true;
             }
             if (evt.key.keysym.sym == SDLK_KP_ENTER || evt.key.keysym.sym == SDLK_RETURN) {
@@ -132,28 +148,35 @@ int Game::input() {
             }
             break;
         case SDL_KEYUP:
-            if (evt.key.keysym.sym == SDLK_ESCAPE) {
-                input_state.exit = false;
+            if (evt.key.keysym.sym == SDLK_LCTRL || evt.key.keysym.sym == SDLK_RCTRL) {
+                input_state.emergency = input_state.emergency & ~(EMERGENCY_CTRL);
             }
-            if (evt.key.keysym.sym == SDLK_F5) {
+            if (evt.key.keysym.sym == SDLK_7 || evt.key.keysym.sym == SDLK_KP_7) {
+                input_state.emergency = input_state.emergency & ~(EMERGENCY_7);
+            }
+            if (evt.key.keysym.sym == SDLK_2 || evt.key.keysym.sym == SDLK_KP_2) {
+                input_state.emergency = input_state.emergency & ~(EMERGENCY_2);
+            }
+            if (evt.key.keysym.sym == SDLK_F2) {
                 input_state.dbg_reload = false;
             }
             if (evt.key.keysym.sym == SDLK_KP_ENTER || evt.key.keysym.sym == SDLK_RETURN) {
                 input_state.enter = false;
             }
             break;
-        case SDL_WINDOWEVENT:
-            if (evt.window.event == SDL_WINDOWEVENT_FOCUS_LOST || evt.window.event == SDL_WINDOWEVENT_LEAVE) {
+        case SDL_WINDOWEVENT: {
+                if ((evt.window.event == SDL_WINDOWEVENT_FOCUS_LOST || evt.window.event == SDL_WINDOWEVENT_LEAVE) && !gameFinished) {
 #ifndef DISABLE_FULL_SCREEN_LOCK
-                SDL_RaiseWindow(window);
+                    SDL_RaiseWindow(window);
 #endif
-            }
-            if (evt.window.event == SDL_WINDOWEVENT_MINIMIZED || evt.window.event == SDL_WINDOWEVENT_MAXIMIZED) {
+                }
+                if (evt.window.event == SDL_WINDOWEVENT_MINIMIZED || evt.window.event == SDL_WINDOWEVENT_MAXIMIZED) {
 #ifndef DISABLE_FULL_SCREEN_LOCK
-                SDL_RestoreWindow(window);
+                    SDL_RestoreWindow(window);
 #endif
-            }
-            break;
+                }
+                break;
+        }
         default:
             break;
         }
@@ -168,25 +191,27 @@ int Game::input() {
 int Game::update(float delta) {
     //fprintf_s(stdout, "Game::update()\n");
 #ifndef DISABLE_FULL_SCREEN_LOCK
-    bool hasToWarp = false;
-    if (input_state.mousePosition.x > window_dimensions.x + window_dimensions.w - 2) {
-        input_state.mousePosition.x = window_dimensions.x + 1;
-        hasToWarp = true;
-    }
-    if (input_state.mousePosition.x < window_dimensions.x + 1) {
-        input_state.mousePosition.x = window_dimensions.x + window_dimensions.w - 2;
-        hasToWarp = true;
-    }
+    if (!gameFinished) {
+        bool hasToWarp = false;
+        if (input_state.mousePosition.x > window_dimensions.x + window_dimensions.w - 2) {
+            input_state.mousePosition.x = window_dimensions.x + 1;
+            hasToWarp = true;
+        }
+        if (input_state.mousePosition.x < window_dimensions.x + 1) {
+            input_state.mousePosition.x = window_dimensions.x + window_dimensions.w - 2;
+            hasToWarp = true;
+        }
 
-    if (input_state.mousePosition.y > window_dimensions.y + window_dimensions.h - 2) {
-        input_state.mousePosition.y = window_dimensions.y + 1;
-        hasToWarp = true;
+        if (input_state.mousePosition.y > window_dimensions.y + window_dimensions.h - 2) {
+            input_state.mousePosition.y = window_dimensions.y + 1;
+            hasToWarp = true;
+        }
+        if (input_state.mousePosition.y < window_dimensions.y + 1) {
+            input_state.mousePosition.y = window_dimensions.y + window_dimensions.h - 2;
+            hasToWarp = true;
+        }
+        if (hasToWarp) { SDL_WarpMouseGlobal(input_state.mousePosition.x, input_state.mousePosition.y); }
     }
-    if (input_state.mousePosition.y< window_dimensions.y + 1) {
-        input_state.mousePosition.y = window_dimensions.y + window_dimensions.h - 2;
-        hasToWarp = true;
-    }
-    if (hasToWarp) { SDL_WarpMouseGlobal(input_state.mousePosition.x, input_state.mousePosition.y); }
 #endif
 
     if (input_state.exit) {
@@ -203,26 +228,7 @@ int Game::render() {
     SDL_SetRenderDrawColor(renderer, 0, 0, 127, 255);
     SDL_RenderClear(renderer);
 
-    // Render background
-    SDL_Rect spriteRect = {
-               0,0,
-               window_dimensions.w,
-               window_dimensions.h
-    };
-
-    for (int i = 0; i <= window_dimensions.h / Texture::texture_rect[Texture::ID::SPR_BACKGROUND].h; ++i) {
-        for (int j = 0; j <= window_dimensions.w / Texture::texture_rect[Texture::ID::SPR_BACKGROUND].w; ++j) {
-            spriteRect = {
-                Texture::texture_rect[Texture::ID::SPR_BACKGROUND].w * j,
-                Texture::texture_rect[Texture::ID::SPR_BACKGROUND].h * i,
-                Texture::texture_rect[Texture::ID::SPR_BACKGROUND].w,
-                Texture::texture_rect[Texture::ID::SPR_BACKGROUND].h
-            };
-            //fprintf_s(stdout, "dest: %d, %d, %d, %d\n", spriteRect.x, spriteRect.y, spriteRect.w, spriteRect.h);
-            SDL_RenderCopy(renderer, Texture::atlas_texture, &Texture::texture_rect[Texture::ID::SPR_BACKGROUND],
-                &spriteRect);
-        }
-    }
+    
 
     level_loader.render();
 
@@ -252,6 +258,12 @@ SDL_Rect Game::getWindowDimensions() {
     return window_dimensions;
 }
 
+SDL_Point Game::getDesktopDimensions() {
+    SDL_DisplayMode mode;
+    SDL_GetCurrentDisplayMode(0, &mode);
+    return { mode.w, mode.h };
+}
+
 SDL_Window* Game::getWindow() {
     return window;
 }
@@ -264,4 +276,18 @@ void Game::drawText(TTF_Font* font, std::string text_, SDL_Rect position) {
     SDL_RenderCopy(renderer, text_texture, NULL, &position);
     SDL_DestroyTexture(text_texture);
     SDL_FreeSurface(text);
+}
+
+bool Game::makeWindowTransparent() {
+    COLORREF colourKey = RGB(255, 0, 255);
+    SDL_SysWMinfo wmInfo;
+    SDL_VERSION(&wmInfo.version);  // Initialize wmInfo
+    SDL_GetWindowWMInfo(window, &wmInfo);
+    HWND hWnd = wmInfo.info.win.window;
+
+    // Change window type to layered (https://stackoverflow.com/a/3970218/3357935)
+    SetWindowLong(hWnd, GWL_EXSTYLE, GetWindowLong(hWnd, GWL_EXSTYLE) | WS_EX_LAYERED);
+
+    // Set transparency color
+    return SetLayeredWindowAttributes(hWnd, colourKey, 0, LWA_COLORKEY);
 }
