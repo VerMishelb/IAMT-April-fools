@@ -57,6 +57,9 @@
     <ClInclude Include="include\Collision.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="include\DickClark.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CI72Locker.cpp">
@@ -102,6 +105,9 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="source\LevelLoader.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="source\DickClark.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

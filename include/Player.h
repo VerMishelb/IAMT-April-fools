@@ -20,6 +20,7 @@ public:
 
     void render();
     void update();
+    SDL_FPoint getPosition();
 };
 
 #endif

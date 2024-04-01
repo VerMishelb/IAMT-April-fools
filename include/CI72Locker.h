@@ -10,6 +10,7 @@
 #include "../include/ChickenHandler.h"
 #include "../include/MusicPlayer.h"
 #include "../include/LevelLoader.h"
+#include "../include/DickClark.h"
 
 #define DISABLE_FULL_SCREEN_LOCK
 
@@ -37,6 +38,7 @@ public:
     BulletSpawner bulletSpawner;
     MusicPlayer music_player;
     ChickenHandler chicken_handler;
+    DickClark dickclark_handler;
     LevelLoader level_loader;
 
 	Game();

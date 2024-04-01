@@ -30,7 +30,7 @@ public:
 
     void update();
     void render();
-
+    SDL_FPoint getPlayerPosition();
 };
 
 #endif

@@ -4,7 +4,7 @@
 #include <SDL.h>
 #include "../include/Collision.h"
 
-#define MAX_BULLETS 512
+#define MAX_BULLETS 1024
 
 struct Bullet {
     SDL_FPoint velocity;

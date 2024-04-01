@@ -19,6 +19,8 @@ const char* textlines_intro[] = {
     "ok how do I leave"
 };
 
+const char* dickclark_text = "Oh my god it;s DICK CLARK somehting somethin";
+
 int intro_text_delay_cnt = 0;
 int intro_text_current = 0;
 
@@ -66,8 +68,25 @@ void LevelLoader::update() {
         }
         break;
     }
-    case State::LVL_DICK_CLARK:
+    case State::LVL_DICK_CLARK: {
+        player.update();
+        if (!(player.canShoot || game->input_state.mouseHeld)) {
+            player.canShoot = true;
+        }
+        game->bulletSpawner.update();
+        game->dickclark_handler.update();
+        if (game->input_state.dbg_reload) {
+            game->input_state.dbg_reload = false;
+            changeState(State::LVL_DICK_CLARK);
+        }
+        if (game->input_state.enter && player.isDead) {
+            changeState(State::TITLE);
+        }
+        if (game->dickclark_handler.level_finished && !(player.isDead)) {
+            changeState(State::LVL_USELESS);
+        }
         break;
+    }
     case State::LVL_USELESS:
         break;
     default:
@@ -105,6 +124,14 @@ void LevelLoader::render() {
         break;
     }
     case State::LVL_DICK_CLARK:
+        player.render();
+        game->bulletSpawner.render();
+        game->dickclark_handler.render();
+
+        game->drawText(game->font, testtextline, { 20, 25, game->getWindowDimensions().w - 20, game->getWindowDimensions().h - 25 });
+        if (player.isDead) {
+            game->drawText(game->font_impact, "sir you have failed miserably", { game->getWindowDimensions().w / 5, game->getWindowDimensions().w / 5, game->getWindowDimensions().w / 2, game->getWindowDimensions().h / 3 });
+        }
         break;
     case State::LVL_USELESS:
         break;
@@ -141,8 +168,21 @@ void LevelLoader::loadState(int state) {
         game->chicken_handler.shoot_cooldown = 200;
         break;
     }
-    case State::LVL_DICK_CLARK:
+    case State::LVL_DICK_CLARK: {
+        SDL_WarpMouseInWindow(game->getWindow(), game->getWindowDimensions().w / 2, game->getWindowDimensions().h - 50);
+        if (game->input_state.mouseHeld) {
+            player.canShoot = false;
+        }
+        SDL_FPoint dickclark_positions[MAX_DICKCLARKS] = {};
+        for (int i = 0; i < MAX_DICKCLARKS; ++i) {
+            SDL_FPoint new_pos = {
+                float(rand() % (game->getWindowDimensions().w - 50)),
+                float(rand() % game->getWindowDimensions().h / 2) };
+            game->dickclark_handler.spawn(new_pos, 5);
+        }
+        game->dickclark_handler.shoot_cooldown = 200;
         break;
+    }
     case State::LVL_USELESS:
         break;
     default:
@@ -168,6 +208,10 @@ void LevelLoader::unloadState() {
         canChangeLevel = false;
         break;
     case State::LVL_DICK_CLARK:
+        game->dickclark_handler.cleanup();
+        game->bulletSpawner.cleanup();
+        player.isDead = false;
+        canChangeLevel = false;
         break;
     case State::LVL_USELESS:
         break;
@@ -180,4 +224,8 @@ void LevelLoader::changeState(int state) {
     fprintf_s(stdout, "changeState(%d)\n", state);
     unloadState();
     loadState(state);
+}
+
+SDL_FPoint LevelLoader::getPlayerPosition() {
+    return player.getPosition();
 }

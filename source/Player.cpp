@@ -3,7 +3,7 @@
 #include "../include/Texture.h"
 #include <stdio.h>
 
-Player::Player() : position({ 4,0 }), shootingCooldown(0), hitcircle({ 0, 0, 12 }), hitcircle_offset({24, 17}) {}
+Player::Player() : position({ 4,0 }), shootingCooldown(0), hitcircle({ 0, 0, 12 }), hitcircle_offset({ 24, 17 }) {}
 Player::~Player() {}
 
 void Player::render() {
@@ -48,6 +48,14 @@ void Player::update() {
                 isDead = true;
             }
         }
+        for (int i = 0; i < MAX_DICKCLARKS; ++i) {
+            if (game->dickclark_handler.dickclarks[i].active &&
+                collides(this->hitcircle, game->dickclark_handler.dickclarks[i].hitcircle))
+            {
+                fprintf_s(stdout, "collidded with dickclark[%d]\n", i);
+                isDead = true;
+            }
+        }
         for (int i = 0; i < MAX_BULLETS; ++i) {
             if (game->bulletSpawner.bullets[i].active &&
                 collides(this->hitcircle, game->bulletSpawner.bullets[i].hitcircle))
@@ -64,4 +72,8 @@ void Player::update() {
             }
         }
     }
+}
+
+SDL_FPoint Player::getPosition() {
+    return { float(position.x), float(position.y) };
 }

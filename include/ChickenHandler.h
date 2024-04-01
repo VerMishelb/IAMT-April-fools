@@ -4,7 +4,7 @@
 #include <SDL.h>
 #include "../include/Collision.h"
 
-#define MAX_CHICKENS 128
+#define MAX_CHICKENS 2 /* 128*/
 
 struct Chicken {
     SDL_FPoint position;

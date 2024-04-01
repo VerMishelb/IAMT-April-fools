@@ -22,6 +22,7 @@ private:
     int position_offset;
     SDL_Point hitcircle_offset;
     int active_dickclarks;
+    void normalise(SDL_FPoint *velocity, float markiplier);
 
 public:
     int shoot_cooldown;
@@ -33,6 +34,7 @@ public:
 
     void update();
     void render();
+    void spawn(SDL_FPoint position, int health);
 
     void cleanup();
 };
