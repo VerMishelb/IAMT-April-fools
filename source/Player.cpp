@@ -32,7 +32,7 @@ void Player::update() {
             SDL_FPoint bullet_position = { position.x, position.y };
             game->bulletSpawner.spawnIon(bullet_position);
             game->music_player.playSfx(MusicPlayer::ID::SND_GUNSH);
-            shootingCooldown = 9;
+            shootingCooldown = 8;
         }
 
         if (shootingCooldown) {

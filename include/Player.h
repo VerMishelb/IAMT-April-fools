@@ -7,9 +7,9 @@
 
 class Player {
     SDL_Point position;
-    int shootingCooldown;
     HitCircle hitcircle;
     SDL_Point hitcircle_offset;
+    int shootingCooldown;
 
 public:
     Player();

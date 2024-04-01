@@ -31,6 +31,10 @@ void LevelLoader::update() {
         ++intro_text_delay_cnt;
         if (intro_text_delay_cnt > 60 * 4) { ++intro_text_current; intro_text_delay_cnt = 0; }
         if (intro_text_current == 6) { changeState(State::TITLE); }
+        if (game->input_state.enter) {
+            intro_text_current = 6;
+        }
+        player.update();
         break;
     }
     case State::TITLE: {
@@ -75,15 +79,18 @@ void LevelLoader::render() {
     //fprintf_s(stdout, "LevelLoader::render(), state = %d\n", state);
     switch (state) {
     case State::INTRO: {
-        game->drawText(
-            game->font,
-            textlines_intro[intro_text_current],
-            { 20, 25, game->getWindowDimensions().w - 20, game->getWindowDimensions().h - 25 });
+        if (intro_text_current < 6) {
+            game->drawText(
+                game->font,
+                textlines_intro[intro_text_current],
+                { 20, 25, game->getWindowDimensions().w - 20, game->getWindowDimensions().h - 25 });
+        }
+        player.render();
         break;
     }
     case State::TITLE: {
-        game->drawText(game->font_impact, "CHICKEN INVADERS\n72: IAMT 3.5.2: GUI:\nNO", { game->getWindowDimensions().w / 4, game->getWindowDimensions().h / 4, game->getWindowDimensions().w / 4 * 3 });
-        game->drawText(game->font, "Happy april fools, fools\ngood luck closing this lmao. Now I am hte virus.\n\n(psst.. )you can press left mouse button to go to the next level\n\n\n\n\noh and you can change\nvolume with + and - if it's too loud", { game->getWindowDimensions().w / 4, game->getWindowDimensions().h / 3 * 2 });
+        game->drawText(game->font_impact, "CHICKEN INVADERS\n72: IAMT 3.5.2: GUI:\nNO", { game->getWindowDimensions().w / 5, game->getWindowDimensions().h / 5, game->getWindowDimensions().w / 4 * 3 });
+        game->drawText(game->font, "Happy april fools, fools\ngood luck closing this lmao. Now I am hte virus.\n\n(psst.. )you can press left mouse button to go to the next level\n\n\n\n\noh and you can change\nvolume with + and - if it's too loud", { game->getWindowDimensions().w / 5, game->getWindowDimensions().h / 3 * 2 });
         break;
     }
     case State::LVL_CHICKENS: {
@@ -93,7 +100,7 @@ void LevelLoader::render() {
         game->drawText(game->font, testtextline, { 20, 25, game->getWindowDimensions().w - 20, game->getWindowDimensions().h - 25 });
 
         if (player.isDead) {
-            game->drawText(game->font_impact, "sir you have failed miserably", { game->getWindowDimensions().w / 2, game->getWindowDimensions().w / 3, game->getWindowDimensions().w / 2, game->getWindowDimensions().h / 2 });
+            game->drawText(game->font_impact, "sir you have failed miserably", { game->getWindowDimensions().w / 5, game->getWindowDimensions().w / 5, game->getWindowDimensions().w / 2, game->getWindowDimensions().h / 3 });
         }
         break;
     }
@@ -111,9 +118,13 @@ void LevelLoader::loadState(int state) {
     this->state = state;
     switch (state) {
     case State::INTRO:
-        //TODO: Add intro music
+        player.canShoot = false;
+        //TODO: Add intro music?
         break;
     case State::TITLE:
+        if (game->input_state.mouseHeld) {
+            canChangeLevel = false;
+        }
         break;
     case State::LVL_CHICKENS: {
         SDL_WarpMouseInWindow(game->getWindow(), game->getWindowDimensions().w / 2, game->getWindowDimensions().h - 50);
@@ -145,6 +156,8 @@ void LevelLoader::unloadState() {
     case State::INTRO:
         intro_text_current = 0;
         intro_text_delay_cnt = 0;
+        player.canShoot = true;
+        canChangeLevel = false;
         break;
     case State::TITLE:
         break;
