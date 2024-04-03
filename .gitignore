@@ -9,3 +9,4 @@
 *.vcxproj
 *.vcxproj.*
 /Release
+/Debug

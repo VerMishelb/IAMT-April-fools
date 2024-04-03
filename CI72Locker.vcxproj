@@ -78,14 +78,14 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>E:\VSLibs\SDL2_image\include;E:\VSLibs\SDL2_ttf\include;E:\VSLibs\SDL2\include;E:\VSLibs\SDL2_mixer\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\mish\lib\SDL2_image\include;C:\mish\lib\SDL2_ttf\include;C:\mish\lib\SDL2\include;C:\mish\lib\SDL2_mixer\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>E:\VSLibs\SDL2_image\lib\x86;E:\VSLibs\SDL2_ttf\lib\x86;E:\VSLibs\SDL2\lib\x86;E:\VSLibs\SDL2_mixer\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\mish\lib\SDL2_image\lib\x86;C:\mish\lib\SDL2_ttf\lib\x86;C:\mish\lib\SDL2\lib\x86;C:\mish\lib\SDL2_mixer\lib\x86;C:\mish\lib\discord_game_sdk\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;SDL2_mixer.lib;discord_game_sdk.dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
     </Link>
   </ItemDefinitionGroup>

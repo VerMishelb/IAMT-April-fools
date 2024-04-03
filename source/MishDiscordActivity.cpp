@@ -5,17 +5,21 @@ MishDiscordActivity::MishDiscordActivity() {
 }
 
 MishDiscordActivity::~MishDiscordActivity() {
-    core->~Core();
+    if (core) { core->~Core(); }
 }
 
 
 void MishDiscordActivity::setActivity(const discord::Activity activity) {
-    core->ActivityManager().UpdateActivity(activity, nullptr);
+    if (core) {
+        core->ActivityManager().UpdateActivity(activity, nullptr);
+    }
 }
 
 void MishDiscordActivity::clearActivity() {
     // I don't really care about the return value because it won't change anything
-    core->ActivityManager().ClearActivity(nullptr);
+    if (core) {
+        core->ActivityManager().ClearActivity(nullptr);
+    }
 }
 
 
@@ -25,9 +29,13 @@ int MishDiscordActivity::init() {
 }
 
 void MishDiscordActivity::update() {
-    core->RunCallbacks();
+    if (core) {
+        core->RunCallbacks();
+    }
 }
 
 void MishDiscordActivity::cleanup() {
-    core->~Core();
+    if (core) {
+        core->~Core();
+    }
 }

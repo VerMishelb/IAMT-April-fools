@@ -21,6 +21,7 @@
 struct Input {
     int emergency{ 0 };
     bool mouseHeld{ false };
+    bool keyboardHeld{ false };
     SDL_Point mousePosition;
     bool exit{ false };
     bool dbg_reload;

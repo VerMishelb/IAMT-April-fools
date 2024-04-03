@@ -154,6 +154,12 @@ int Game::input() {
             if (evt.key.keysym.sym == SDLK_KP_ENTER || evt.key.keysym.sym == SDLK_RETURN) {
                 input_state.enter = true;
             }
+            // This is a very paradoxical statement because even if I breakpoint the next line it
+            // moves the breakpoint to "break" after the statement, automatically, skipping the "if"
+            // even though the "if" is true.
+            if (evt.key.keysym.sym == SDLK_SPACE || evt.key.keysym.sym == SDLK_z) {
+                input_state.keyboardHeld == true;
+            }
             break;
         case SDL_KEYUP:
             if (evt.key.keysym.sym == SDLK_LCTRL || evt.key.keysym.sym == SDLK_RCTRL) {
@@ -170,6 +176,9 @@ int Game::input() {
             }
             if (evt.key.keysym.sym == SDLK_KP_ENTER || evt.key.keysym.sym == SDLK_RETURN) {
                 input_state.enter = false;
+            }
+            if (evt.key.keysym.sym == SDLK_SPACE || evt.key.keysym.sym == SDLK_z) {
+                input_state.keyboardHeld == false;
             }
             break;
         case SDL_WINDOWEVENT: {
@@ -191,7 +200,8 @@ int Game::input() {
     }
 
     Uint32 mouse_vars = SDL_GetGlobalMouseState(&input_state.mousePosition.x, &input_state.mousePosition.y);
-    input_state.mouseHeld = SDL_BUTTON(mouse_vars) & SDL_BUTTON_LEFT;
+    input_state.mouseHeld = input_state.keyboardHeld || (SDL_BUTTON(mouse_vars) & SDL_BUTTON_LEFT);
+    fprintf_s(stdout, "mouseHeld: %d\nkbHeld: %d\n\n", input_state.mouseHeld, input_state.keyboardHeld);
 
     return 0;
 }
