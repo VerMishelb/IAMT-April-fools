@@ -92,6 +92,7 @@ void LevelLoader::update() {
         break;
     }
     case State::LVL_USELESS: {
+
         bigchicken_position_offset += 2;
         if (bigchicken_position_offset > 25) {
             bigchicken_position_offset = 0;
@@ -254,11 +255,25 @@ void LevelLoader::loadState(int state) {
         player.canShoot = false;
         break;
     case State::TITLE:
+        discord::Activity activity{};
+        activity.GetAssets().SetLargeImage("cimt_icon_large");
+        activity.GetAssets().SetLargeText("I'll replace it");
+        activity.SetDetails("Sophisticated GUI, indeed");
+        activity.SetState("You fell for it");
+        game->mishdiscordactivity.setActivity(activity);
+
         if (game->input_state.mouseHeld) {
             canChangeLevel = false;
         }
         break;
     case State::LVL_CHICKENS: {
+        discord::Activity activity{};
+        activity.GetAssets().SetLargeImage("cimt_chickens_large");
+        activity.GetAssets().SetLargeText("I'll replace it");
+        activity.SetDetails("Damn that's a lot");
+        activity.SetState("of chkns");
+        game->mishdiscordactivity.setActivity(activity);
+
         SDL_WarpMouseInWindow(game->getWindow(), game->getWindowDimensions().w / 2, game->getWindowDimensions().h - 50);
         if (game->input_state.mouseHeld) {
             player.canShoot = false;
@@ -274,6 +289,14 @@ void LevelLoader::loadState(int state) {
         break;
     }
     case State::LVL_DICK_CLARK: {
+        discord::Activity activity{};
+        activity.GetAssets().SetLargeImage("cimt_dc_large");
+        activity.GetAssets().SetLargeText("I'll replace it");
+        activity.SetDetails("DICK CLARK?!!");
+        activity.SetState("There are three of them");
+        game->mishdiscordactivity.setActivity(activity);
+
+
         SDL_WarpMouseInWindow(game->getWindow(), game->getWindowDimensions().w / 2, game->getWindowDimensions().h - 50);
         if (game->input_state.mouseHeld) {
             player.canShoot = false;
@@ -289,6 +312,14 @@ void LevelLoader::loadState(int state) {
         break;
     }
     case State::LVL_USELESS: {
+        discord::Activity activity{};
+        activity.GetAssets().SetLargeImage("cimt_big_chicken_large");
+        activity.GetAssets().SetLargeText("I'll replace it");
+        activity.SetDetails("Big chicken #214748364 has escaped!");
+        activity.SetState("It's probably hostile...");
+        game->mishdiscordactivity.setActivity(activity);
+
+
         SDL_SetWindowAlwaysOnTop(game->getWindow(), SDL_TRUE);
         SDL_ShowCursor(SDL_ENABLE);
         SDL_SetWindowSize(game->getWindow(), 123, 120);

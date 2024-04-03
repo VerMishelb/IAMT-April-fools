@@ -99,17 +99,20 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>E:\VSLibs\SDL2_image\include;E:\VSLibs\SDL2_ttf\include;E:\VSLibs\SDL2\include;E:\VSLibs\SDL2_mixer\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\mish\lib\SDL2_image\include;C:\mish\lib\SDL2_ttf\include;C:\mish\lib\SDL2\include;C:\mish\lib\SDL2_mixer\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>E:\VSLibs\SDL2_image\lib\x86;E:\VSLibs\SDL2_ttf\lib\x86;E:\VSLibs\SDL2\lib\x86;E:\VSLibs\SDL2_mixer\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\mish\lib\SDL2_image\lib\x86;C:\mish\lib\SDL2_ttf\lib\x86;C:\mish\lib\SDL2\lib\x86;C:\mish\lib\SDL2_mixer\lib\x86;C:\mish\lib\discord_game_sdk\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;SDL2_mixer.lib;discord_game_sdk.dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
     </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -153,11 +156,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="discord\achievement_manager.h" />
+    <ClInclude Include="discord\activity_manager.h" />
+    <ClInclude Include="discord\application_manager.h" />
+    <ClInclude Include="discord\core.h" />
+    <ClInclude Include="discord\discord.h" />
+    <ClInclude Include="discord\event.h" />
+    <ClInclude Include="discord\ffi.h" />
+    <ClInclude Include="discord\image_manager.h" />
+    <ClInclude Include="discord\lobby_manager.h" />
+    <ClInclude Include="discord\network_manager.h" />
+    <ClInclude Include="discord\overlay_manager.h" />
+    <ClInclude Include="discord\relationship_manager.h" />
+    <ClInclude Include="discord\storage_manager.h" />
+    <ClInclude Include="discord\store_manager.h" />
+    <ClInclude Include="discord\types.h" />
+    <ClInclude Include="discord\user_manager.h" />
+    <ClInclude Include="discord\voice_manager.h" />
     <ClInclude Include="include\BulletSpawner.h" />
     <ClInclude Include="include\ChickenHandler.h" />
     <ClInclude Include="include\CI72Locker.h" />
     <ClInclude Include="include\Collision.h" />
     <ClInclude Include="include\DickClark.h" />
+    <ClInclude Include="include\MishDiscordActivity.h" />
     <ClInclude Include="include\LevelLoader.h" />
     <ClInclude Include="include\MusicPlayer.h" />
     <ClInclude Include="include\snd_cash.h" />
@@ -176,12 +197,27 @@
     <ClInclude Include="include\Types.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="discord\achievement_manager.cpp" />
+    <ClCompile Include="discord\activity_manager.cpp" />
+    <ClCompile Include="discord\application_manager.cpp" />
+    <ClCompile Include="discord\core.cpp" />
+    <ClCompile Include="discord\image_manager.cpp" />
+    <ClCompile Include="discord\lobby_manager.cpp" />
+    <ClCompile Include="discord\network_manager.cpp" />
+    <ClCompile Include="discord\overlay_manager.cpp" />
+    <ClCompile Include="discord\relationship_manager.cpp" />
+    <ClCompile Include="discord\storage_manager.cpp" />
+    <ClCompile Include="discord\store_manager.cpp" />
+    <ClCompile Include="discord\types.cpp" />
+    <ClCompile Include="discord\user_manager.cpp" />
+    <ClCompile Include="discord\voice_manager.cpp" />
     <ClCompile Include="include\Player.h" />
     <ClCompile Include="include\Texture.h" />
     <ClCompile Include="source\BulletSpawner.cpp" />
     <ClCompile Include="source\ChickenHandler.cpp" />
     <ClCompile Include="source\CI72Locker.cpp" />
     <ClCompile Include="source\DickClark.cpp" />
+    <ClCompile Include="source\MishDiscordActivity.cpp" />
     <ClCompile Include="source\LevelLoader.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\MusicPlayer.cpp" />

@@ -9,11 +9,11 @@
 #include <SDL_mixer.h>
 #include "../include/TaskmgrKiller.h"
 #include "../include/Texture.h"
+#include "../include/MishDiscordActivity.h"
 #include <time.h>
 
 
-Game *game = nullptr;
-
+Game* game = nullptr;
 
 Game::Game() : window_dimensions({0, 0, 800, 600}), renderer(nullptr), window(nullptr), shutdown(false), font(nullptr), font_impact(nullptr) {
     if (!game) {
@@ -102,6 +102,14 @@ int Game::init() {
     music_player.playLooped();
 
     level_loader.changeState(LevelLoader::State::INTRO);
+
+    mishdiscordactivity.init();
+    discord::Activity activity{};
+    activity.GetAssets().SetLargeImage("cimt_icon_large");
+    activity.GetAssets().SetLargeText("I'll replace it");
+    activity.SetDetails("Sophisticated GUI, indeed");
+    activity.SetState("You fell for it");
+    mishdiscordactivity.setActivity(activity);
 
     return 0;
 }
@@ -219,6 +227,7 @@ int Game::update(float delta) {
     }
 
     level_loader.update();
+    mishdiscordactivity.update();
 
     return 0;
 }
@@ -247,6 +256,7 @@ int Game::terminate() {
     IMG_Quit();
     Mix_Quit();
     SDL_Quit();
+    mishdiscordactivity.cleanup();
     return 0;
 }
 
