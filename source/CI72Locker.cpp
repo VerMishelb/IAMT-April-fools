@@ -126,7 +126,7 @@ int Game::input() {
             shutdown = true;
 #endif
             break;
-        case SDL_KEYDOWN:
+        case SDL_KEYDOWN: {
             if (evt.key.keysym.sym == SDLK_LCTRL || evt.key.keysym.sym == SDLK_RCTRL) {
                 input_state.emergency |= EMERGENCY_CTRL;
             }
@@ -154,6 +154,9 @@ int Game::input() {
             if (evt.key.keysym.sym == SDLK_KP_ENTER || evt.key.keysym.sym == SDLK_RETURN) {
                 input_state.enter = true;
             }
+            if (evt.key.keysym.sym == SDLK_SPACE || evt.key.keysym.sym == SDLK_z) {
+                fprintf_s(stdout, "I have been called\n");
+            }
             // This is a very paradoxical statement because even if I breakpoint the next line it
             // moves the breakpoint to "break" after the statement, automatically, skipping the "if"
             // even though the "if" is true.
@@ -161,6 +164,7 @@ int Game::input() {
                 input_state.keyboardHeld == true;
             }
             break;
+        }
         case SDL_KEYUP:
             if (evt.key.keysym.sym == SDLK_LCTRL || evt.key.keysym.sym == SDLK_RCTRL) {
                 input_state.emergency = input_state.emergency & ~(EMERGENCY_CTRL);
