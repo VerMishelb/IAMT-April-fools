@@ -114,7 +114,7 @@ int Game::input() {
     while (SDL_PollEvent(&evt)) {
         switch (evt.type) {
         case SDL_QUIT:
-#ifndef DISABLE_FULL_SCREEN_LOCK
+#ifdef DISABLE_FULL_SCREEN_LOCK /* ffs */
             shutdown = true;
 #endif
             break;
