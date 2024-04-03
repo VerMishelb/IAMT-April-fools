@@ -155,14 +155,14 @@ int Game::input() {
                 input_state.enter = true;
             }
             if (evt.key.keysym.sym == SDLK_SPACE || evt.key.keysym.sym == SDLK_z) {
-                fprintf_s(stdout, "I have been called\n");
+                input_state.keyboardHeld = true;
             }
             // This is a very paradoxical statement because even if I breakpoint the next line it
             // moves the breakpoint to "break" after the statement, automatically, skipping the "if"
             // even though the "if" is true.
-            if (evt.key.keysym.sym == SDLK_SPACE || evt.key.keysym.sym == SDLK_z) {
-                input_state.keyboardHeld == true;
-            }
+            //if (evt.key.keysym.sym == SDLK_SPACE || evt.key.keysym.sym == SDLK_z) {
+            //    input_state.keyboardHeld == true;
+            //}
             break;
         }
         case SDL_KEYUP:
@@ -182,7 +182,7 @@ int Game::input() {
                 input_state.enter = false;
             }
             if (evt.key.keysym.sym == SDLK_SPACE || evt.key.keysym.sym == SDLK_z) {
-                input_state.keyboardHeld == false;
+                input_state.keyboardHeld = false;
             }
             break;
         case SDL_WINDOWEVENT: {
