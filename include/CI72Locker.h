@@ -13,7 +13,7 @@
 #include "../include/DickClark.h"
 #include "../include/MishDiscordActivity.h"
 
-#define DISABLE_FULL_SCREEN_LOCK
+// #define DISABLE_FULL_SCREEN_LOCK
 #define EMERGENCY_CTRL 1
 #define EMERGENCY_7 2
 #define EMERGENCY_2 4
