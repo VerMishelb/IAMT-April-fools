@@ -373,3 +373,7 @@ void LevelLoader::changeState(int state) {
 SDL_FPoint LevelLoader::getPlayerPosition() {
     return player.getPosition();
 }
+
+int LevelLoader::getState() {
+    return state;
+}

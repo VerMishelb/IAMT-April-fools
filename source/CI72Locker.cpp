@@ -121,7 +121,7 @@ int Game::input() {
 
     while (SDL_PollEvent(&evt)) {
         switch (evt.type) {
-        case SDL_QUIT:
+        case SDL_QUIT:  
 #ifdef DISABLE_FULL_SCREEN_LOCK /* ffs */
             shutdown = true;
 #endif
@@ -136,12 +136,32 @@ int Game::input() {
             if (evt.key.keysym.sym == SDLK_2 || evt.key.keysym.sym == SDLK_KP_2) {
                 input_state.emergency |= EMERGENCY_2;
             }
-            if ((input_state.emergency & (EMERGENCY_2 | EMERGENCY_7 | EMERGENCY_CTRL)) == 7) {
+            if ((input_state.emergency & EMERGENCY) == EMERGENCY) {
+                fprintf_s(stdout, "Called emergency quit\n");
                 input_state.exit = true;
             }
             else {
                 input_state.exit = false;
             }
+
+            if (evt.key.keysym.sym == SDLK_c) {
+                input_state.bigchicken |= BIGCHICKEN_C;
+            }
+            if (evt.key.keysym.sym == SDLK_h) {
+                input_state.bigchicken |= BIGCHICKEN_H;
+            }
+            if (evt.key.keysym.sym == SDLK_k) {
+                input_state.bigchicken |= BIGCHICKEN_K;
+            }
+            if (evt.key.keysym.sym == SDLK_n) {
+                input_state.bigchicken |= BIGCHICKEN_N;
+            }
+            if ((input_state.bigchicken & BIGCHICKEN) == BIGCHICKEN &&
+                level_loader.getState() != LevelLoader::State::LVL_USELESS)
+            {
+                level_loader.changeState(LevelLoader::State::LVL_USELESS);
+            }
+
             if (evt.key.keysym.sym == SDLK_MINUS || evt.key.keysym.sym == SDLK_KP_MINUS) {
                 music_player.changeVolume(-16);
             }
@@ -157,24 +177,32 @@ int Game::input() {
             if (evt.key.keysym.sym == SDLK_SPACE || evt.key.keysym.sym == SDLK_z) {
                 input_state.keyboardHeld = true;
             }
-            // This is a very paradoxical statement because even if I breakpoint the next line it
-            // moves the breakpoint to "break" after the statement, automatically, skipping the "if"
-            // even though the "if" is true.
-            //if (evt.key.keysym.sym == SDLK_SPACE || evt.key.keysym.sym == SDLK_z) {
-            //    input_state.keyboardHeld == true;
-            //}
             break;
         }
         case SDL_KEYUP:
             if (evt.key.keysym.sym == SDLK_LCTRL || evt.key.keysym.sym == SDLK_RCTRL) {
-                input_state.emergency = input_state.emergency & ~(EMERGENCY_CTRL);
+                input_state.emergency &= ~(EMERGENCY_CTRL);
             }
             if (evt.key.keysym.sym == SDLK_7 || evt.key.keysym.sym == SDLK_KP_7) {
-                input_state.emergency = input_state.emergency & ~(EMERGENCY_7);
+                input_state.emergency &= ~(EMERGENCY_7);
             }
             if (evt.key.keysym.sym == SDLK_2 || evt.key.keysym.sym == SDLK_KP_2) {
-                input_state.emergency = input_state.emergency & ~(EMERGENCY_2);
+                input_state.emergency &= ~(EMERGENCY_2);
             }
+
+            if (evt.key.keysym.sym == SDLK_c) {
+                input_state.bigchicken &= ~(BIGCHICKEN_C);
+            }
+            if (evt.key.keysym.sym == SDLK_h) {
+                input_state.bigchicken &= ~(BIGCHICKEN_H);
+            }
+            if (evt.key.keysym.sym == SDLK_k) {
+                input_state.bigchicken &= ~(BIGCHICKEN_K);
+            }
+            if (evt.key.keysym.sym == SDLK_n) {
+                input_state.bigchicken &= ~(BIGCHICKEN_N);
+            }
+
             if (evt.key.keysym.sym == SDLK_F2) {
                 input_state.dbg_reload = false;
             }
@@ -205,7 +233,7 @@ int Game::input() {
 
     Uint32 mouse_vars = SDL_GetGlobalMouseState(&input_state.mousePosition.x, &input_state.mousePosition.y);
     input_state.mouseHeld = input_state.keyboardHeld || (SDL_BUTTON(mouse_vars) & SDL_BUTTON_LEFT);
-    fprintf_s(stdout, "mouseHeld: %d\nkbHeld: %d\n\n", input_state.mouseHeld, input_state.keyboardHeld);
+    // fprintf_s(stdout, "mouseHeld: %d\nkbHeld: %d\n\n", input_state.mouseHeld, input_state.keyboardHeld);
 
     return 0;
 }

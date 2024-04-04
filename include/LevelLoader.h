@@ -27,6 +27,7 @@ public:
     };
 
     void changeState(int state);
+    int getState();
 
     void update();
     void render();
