@@ -1,7 +1,9 @@
+#line 2 "DickClark.cpp"
 #include "../include/DickClark.h"
 #include "../include/CI72Locker.h"
 #include "../include/Texture.h"
 #include <math.h>
+#include "minidebug.h"
 
 DickClark::DickClark() :
     next_dickclark(0),
@@ -70,7 +72,7 @@ void DickClark::update() {
                         --active_dickclarks;
                         game->music_player.playSfx(MusicPlayer::ID::SND_DC_DEATH);
 
-                        fprintf_s(stdout, "active_dickclarks %d\n", active_dickclarks);
+                        miniprintfvalloc("%d", active_dickclarks);
                         if (active_dickclarks == 0) {
                             level_finished = true;
                         }
@@ -117,24 +119,24 @@ void DickClark::update() {
 void DickClark::render() {
     for (int i = 0; i < MAX_DICKCLARKS; ++i) {
         if (dickclarks[i].active) {
-            SDL_Rect spriteRect = {
+            SDL_FRect spriteRect = {
                dickclarks[i].draw_position.x, dickclarks[i].draw_position.y,
                Texture::texture_rect[Texture::ID::SPR_DICK_CLARK].w,
                Texture::texture_rect[Texture::ID::SPR_DICK_CLARK].h
             };
 
             //fprintf_s(stdout, "bullet: %d, %d, %d, %d\n", spriteRect.x, spriteRect.y, spriteRect.w, spriteRect.h);
-            SDL_RenderCopy(game->getRenderer(), Texture::atlas_texture,
+            SDL_RenderTexture(game->getRenderer(), Texture::atlas_texture,
                 &Texture::texture_rect[Texture::ID::SPR_DICK_CLARK],
                 &spriteRect);
 
             if (dickclarks[i].teleport_timeout < 40 && dickclarks[i].teleport_timeout % 2) {
-                SDL_Rect newposRect = {
+                SDL_FRect newposRect = {
                     dickclarks[i].next_position.x, dickclarks[i].next_position.y,
                     Texture::texture_rect[Texture::ID::SPR_DICK_CLARK].w,
                     Texture::texture_rect[Texture::ID::SPR_DICK_CLARK].h
                 };
-                SDL_RenderCopy(game->getRenderer(), Texture::atlas_texture,
+                SDL_RenderTexture(game->getRenderer(), Texture::atlas_texture,
                     &Texture::texture_rect[Texture::ID::SPR_DICK_CLARK],
                     &newposRect);
             }

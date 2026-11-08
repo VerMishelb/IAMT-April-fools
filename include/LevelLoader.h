@@ -25,8 +25,9 @@ public:
         GAME_OVER,
         AMOUNT
     };
-
-    void changeState(int state);
+    
+    #define changeState(state) changeState_(state, #state)
+    void changeState_(int state, const char* state_name = nullptr);
 
     void update();
     void render();

@@ -1,14 +1,15 @@
 #include "../include/Texture.h"
-#include <SDL.h>
-#include <SDL_image.h>
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
 #include <stdio.h>
 #include "../include/CI72Locker.h"
+#include "minidebug.h"
 
-#include "../include/TextureAtlas.h"
+#include "assets/TextureAtlas_png.h"
 
 SDL_Texture* Texture::atlas_texture = nullptr;
 SDL_Surface* Texture::atlas_surface = nullptr;
-SDL_Rect Texture::texture_rect[] = {
+SDL_FRect Texture::texture_rect[] = {
         {0, 0, 256, 256},
         {0,0,32,32},
         {32,0,48,41},
@@ -29,17 +30,22 @@ SDL_Rect Texture::texture_rect[] = {
 
 
 SDL_Texture* Texture::loadAtlas() {
-    SDL_RWops* atlas_file = SDL_RWFromConstMem(data_textureAtlas, data_textureAtlas_size);
-    SDL_Surface* atlas_surface = IMG_Load_RW(atlas_file, 1);
+#ifdef CI72_EMBEDDED_ASSETS
+    SDL_IOStream* atlas_file = SDL_IOFromConstMem(TextureAtlas_png, TextureAtlas_png_size);
+    SDL_Surface* atlas_surface = IMG_Load_IO(atlas_file, true);
+#else
+    SDL_Surface* atlas_surface = IMG_Load("assets/img_textureatlas.png");
+#endif
 
     if (!atlas_surface) {
-        fprintf_s(stdout, "Could not load images %s.\n", IMG_GetError());
+        miniprintf("Could not load the texture atlas: %s.", SDL_GetError());
         return nullptr;
     }
 
-    atlas_texture = NULL;
-
     atlas_texture = SDL_CreateTextureFromSurface(game->getRenderer(), atlas_surface);
-    SDL_FreeSurface(atlas_surface);
+    if (!atlas_texture) {
+        miniprintf("Could not create texture from surface: %s.", SDL_GetError());
+    }
+    SDL_DestroySurface(atlas_surface);
     return atlas_texture;
 }

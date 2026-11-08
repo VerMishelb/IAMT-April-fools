@@ -1,7 +1,7 @@
 #ifndef ChickenHandler_h_
 #define ChickenHandler_h_
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 #include "../include/Collision.h"
 
 #define MAX_CHICKENS 128

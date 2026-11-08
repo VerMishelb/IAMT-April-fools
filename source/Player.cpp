@@ -1,21 +1,23 @@
+#line 2 "Player.cpp"
 #include "../include/Player.h"
 #include "../include/CI72Locker.h"
 #include "../include/Texture.h"
 #include <stdio.h>
+#include "minidebug.h"
 
 Player::Player() : position({ 4,0 }), shootingCooldown(0), hitcircle({ 0, 0, 12 }), hitcircle_offset({ 24, 17 }) {}
 Player::~Player() {}
 
 void Player::render() {
     if (!isDead) {
-        SDL_Rect spriteRect = {
+        SDL_FRect spriteRect = {
                    position.x, position.y,
                    Texture::texture_rect[Texture::ID::SPR_SHIP].w,
                    Texture::texture_rect[Texture::ID::SPR_SHIP].h
         };
 
         //fprintf_s(stdout, "dest: %d, %d, %d, %d\n", spriteRect.x, spriteRect.y, spriteRect.w, spriteRect.h);
-        SDL_RenderCopy(game->getRenderer(), Texture::atlas_texture, &Texture::texture_rect[Texture::ID::SPR_SHIP],
+        SDL_RenderTexture(game->getRenderer(), Texture::atlas_texture, &Texture::texture_rect[Texture::ID::SPR_SHIP],
             &spriteRect);
     }
 }
@@ -44,7 +46,7 @@ void Player::update() {
             if (game->chicken_handler.chickens[i].active &&
                 collides(this->hitcircle, game->chicken_handler.chickens[i].hitcircle))
             {
-                fprintf_s(stdout, "collidded with chickens[%d]\n", i);
+                miniprintf("collidded with chickens[%d]", i);
                 isDead = true;
             }
         }
@@ -52,7 +54,7 @@ void Player::update() {
             if (game->dickclark_handler.dickclarks[i].active &&
                 collides(this->hitcircle, game->dickclark_handler.dickclarks[i].hitcircle))
             {
-                fprintf_s(stdout, "collidded with dickclark[%d]\n", i);
+                miniprintf("collidded with dickclark[%d]", i);
                 isDead = true;
             }
         }
@@ -61,12 +63,12 @@ void Player::update() {
                 collides(this->hitcircle, game->bulletSpawner.bullets[i].hitcircle))
             {
                 if (game->bulletSpawner.bullets[i].isEgg) {
-                    fprintf_s(stdout, "collidded with egg[%d]\n", i);
+                    miniprintf("collidded with egg[%d]", i);
                     game->bulletSpawner.eggCollided(i);
                     isDead = true;
                 }
                 else if (game->bulletSpawner.bullets[i].isCash) {
-                    fprintf_s(stdout, "collided with cash[%d]\n", i);
+                    miniprintf("collided with cash[%d]", i);
                     game->bulletSpawner.cashCollided(i);
                 }
             }

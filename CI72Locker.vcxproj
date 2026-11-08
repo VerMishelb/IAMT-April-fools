@@ -78,13 +78,13 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>E:\VSLibs\SDL2_image\include;E:\VSLibs\SDL2_ttf\include;E:\VSLibs\SDL2\include;E:\VSLibs\SDL2_mixer\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\dev\libs-prj\SDL2_image\include;E:\dev\libs-prj\SDL2_ttf\include;E:\dev\libs-prj\SDL2\include;E:\dev\libs-prj\SDL2_mixer\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>E:\VSLibs\SDL2_image\lib\x86;E:\VSLibs\SDL2_ttf\lib\x86;E:\VSLibs\SDL2\lib\x86;E:\VSLibs\SDL2_mixer\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>E:\dev\libs-prj\SDL2_image\lib\x86;E:\dev\libs-prj\SDL2_ttf\lib\x86;E:\dev\libs-prj\SDL2\lib\x86;E:\dev\libs-prj\SDL2_mixer\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
     </Link>
@@ -99,14 +99,14 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>E:\VSLibs\SDL2_image\include;E:\VSLibs\SDL2_ttf\include;E:\VSLibs\SDL2\include;E:\VSLibs\SDL2_mixer\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\dev\libs-prj\SDL2_image\include;E:\dev\libs-prjs\SDL2_ttf\include;E:\dev\libs-prj\SDL2\include;E:\dev\libs-prj\SDL2_mixer\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>E:\VSLibs\SDL2_image\lib\x86;E:\VSLibs\SDL2_ttf\lib\x86;E:\VSLibs\SDL2\lib\x86;E:\VSLibs\SDL2_mixer\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>E:\dev\libs-prj\SDL2_image\lib\x86;E:\dev\libs-prj\SDL2_ttf\lib\x86;E:\dev\libs-prj\SDL2\lib\x86;E:\dev\libs-prj\SDL2_mixer\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>AsInvoker</UACExecutionLevel>
     </Link>

@@ -1,7 +1,7 @@
 #ifndef Texture_h_
 #define Texture_h_
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 
 namespace Texture {
@@ -9,7 +9,7 @@ namespace Texture {
 
     extern SDL_Texture* atlas_texture;
     extern SDL_Surface* atlas_surface;
-    extern SDL_Rect texture_rect[];
+    extern SDL_FRect texture_rect[];
 
     enum ID {
         NONE,

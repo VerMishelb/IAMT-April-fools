@@ -1,7 +1,7 @@
 #ifndef BulletSpawner_h_
 #define BulletSpawner_h_
 
-#include <SDL.h>
+#include <SDl3/SDL.h>
 #include "../include/Collision.h"
 
 #define MAX_BULLETS 1024

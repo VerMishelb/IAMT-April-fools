@@ -1,0 +1,6 @@
+D:/dev/prj/ciu/IAMT-April-fools/build/CMakeFiles/iamt_april_fools.dir
+D:/dev/prj/ciu/IAMT-April-fools/build/CMakeFiles/edit_cache.dir
+D:/dev/prj/ciu/IAMT-April-fools/build/CMakeFiles/rebuild_cache.dir
+D:/dev/prj/ciu/IAMT-April-fools/build/source/bin2hc/CMakeFiles/bin2hc.dir
+D:/dev/prj/ciu/IAMT-April-fools/build/source/bin2hc/CMakeFiles/edit_cache.dir
+D:/dev/prj/ciu/IAMT-April-fools/build/source/bin2hc/CMakeFiles/rebuild_cache.dir

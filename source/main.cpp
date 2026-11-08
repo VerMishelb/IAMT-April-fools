@@ -1,8 +1,11 @@
+#line 2 "main.cpp"
 #include "../include/CI72Locker.h"
 #include <iostream>
+#include <SDL3/SDL_main.h>
+#include "minidebug.h"
 
 int main(int argc, char** argv) {
-	fprintf_s(stdout, "Launching...\n");
+	miniprintf("Launching...");
 	Game game{};
     if (game.init()) {
         game.terminate();
@@ -14,7 +17,7 @@ int main(int argc, char** argv) {
 		game.render();
 		SDL_Delay(16);
 	}
-	fprintf_s(stdout, "Main loop ended\n");
+	miniprintf("Main loop ended.");
 	game.terminate();
 	return 0;
 }

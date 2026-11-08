@@ -1,7 +1,7 @@
 #ifndef DickClark_h_
 #define DickClark_h_
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 #include "../include/Collision.h"
 
 #define MAX_DICKCLARKS 3

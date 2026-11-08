@@ -1,0 +1,27 @@
+# ninja log v7
+5	2320	8064465942661596	source/bin2hc/CMakeFiles/bin2hc.dir/main.cpp.obj	aba72374f02b3ed9
+2329	2755	8064465965910007	RelWithDebInfo/bin2hc.exe	15f31582ab2eb136
+2800	3008	8064465970622107	CMakeFiles/iamt_april_fools.dir/source/assets/mus_music3_mid.c.obj	c71ac6d26a18a687
+2807	3029	8064465970682122	CMakeFiles/iamt_april_fools.dir/source/assets/snd_cash_ogg.c.obj	867b569d4662b080
+2821	3048	8064465970832143	CMakeFiles/iamt_april_fools.dir/source/assets/snd_chicken_hit_wav.c.obj	675c19a157add5e6
+2814	3052	8064465970752117	CMakeFiles/iamt_april_fools.dir/source/assets/snd_chicken_die_ogg.c.obj	f2945d08af1ecb2a
+2846	3115	8064465971072221	CMakeFiles/iamt_april_fools.dir/source/assets/snd_dc_teleport_wav.c.obj	b7b6a95e15a9c522
+2864	3116	8064465971257459	CMakeFiles/iamt_april_fools.dir/source/assets/snd_oo_wav.c.obj	660808958fccc853
+2839	3118	8064465971002239	CMakeFiles/iamt_april_fools.dir/source/assets/snd_dc_hit_wav.c.obj	247b31f3b3caf20b
+2855	3160	8064465971167464	CMakeFiles/iamt_april_fools.dir/source/assets/snd_gunsh_wav.c.obj	9a4af29f2fe19771
+3008	3215	8064465972702100	CMakeFiles/iamt_april_fools.dir/source/assets/TextureAtlas_png.c.obj	10bdf1a96ed3bd12
+2828	3246	8064465970892127	CMakeFiles/iamt_april_fools.dir/source/assets/snd_dc_death_wav.c.obj	1364c990a6a5a84d
+14	1514	8064664561460071	CMakeFiles/iamt_april_fools.dir/source/ChickenHandler.cpp.obj	63dd85fc7ea3c334
+20	1849	8082419415843450	CMakeFiles/iamt_april_fools.dir/source/Texture.cpp.obj	64b25c21c648fe96
+33	1553	8064664561660069	CMakeFiles/iamt_april_fools.dir/source/main.cpp.obj	dfc9e02d379bf882
+7	1519	8064664561400064	CMakeFiles/iamt_april_fools.dir/source/BulletSpawner.cpp.obj	3627493bd6700213
+38	1507	8064664561700082	CMakeFiles/iamt_april_fools.dir/source/Player.cpp.obj	60d2d03c1f7ae715
+27	1556	8064664561600092	CMakeFiles/iamt_april_fools.dir/source/LevelLoader.cpp.obj	c9a1a14d87126800
+36	1724	8064610501300852	CMakeFiles/iamt_april_fools.dir/source/MusicPlayer.cpp.obj	c7a63fe1164880b4
+23	1622	8064664561550083	CMakeFiles/iamt_april_fools.dir/source/DickClark.cpp.obj	f7484e30dc88455f
+12	1859	8082419415843450	CMakeFiles/iamt_april_fools.dir/source/CI72Locker.cpp.obj	b6e4ea628a99080a
+8	321	8082419725761686	RelWithDebInfo/iamt_april_fools.exe	8b27321f257dc08a
+3	263	8082420782130883	build.ninja	7e1e3d21ad9dbfcf
+3	263	8082420781989603	D:/dev/prj/ciu/IAMT-April-fools/build/cmake_install.cmake	7e1e3d21ad9dbfcf
+3	263	8082420782130883	D:/dev/prj/ciu/IAMT-April-fools/build/source/bin2hc/cmake_install.cmake	7e1e3d21ad9dbfcf
+10	419	8082420831680683	RelWithDebInfo/iamt_april_fools.exe	7e24091d06fdc2c1

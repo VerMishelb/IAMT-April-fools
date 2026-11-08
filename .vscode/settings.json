@@ -1,0 +1,5 @@
+{
+    "cmake.cmakePath": "C:\\msys64\\ucrt64\\bin\\cmake.exe",
+    "terminal.integrated.defaultProfile.windows": "MSYS2 UCRT64",
+    "cmakeIntelliSense.cmakePath": "C:\\msys64\\ucrt64\\bin\\cmake.exe",
+}

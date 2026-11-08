@@ -1,7 +1,7 @@
 #ifndef Player_h_
 #define Player_h_
 
-#include <SDL.h>
+#include <SDL3/SDL.h>
 #include "../include/BulletSpawner.h"
 #include "../include/Collision.h"
 

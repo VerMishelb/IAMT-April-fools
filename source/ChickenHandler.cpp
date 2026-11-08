@@ -1,7 +1,9 @@
+#line 2 "ChickenHandler.cpp"
 #include "../include/ChickenHandler.h"
 #include "../include/CI72Locker.h"
 #include "../include/Texture.h"
 #include <stdlib.h>
+#include "minidebug.h"
 
 ChickenHandler::ChickenHandler() : shoot_cooldown(200), next_chicken(0), position_offset(0), active_chickens(0), level_finished(false) {
     for (int i = 0; i < MAX_CHICKENS; ++i) {
@@ -48,7 +50,7 @@ void ChickenHandler::update() {
                             { 0, 3 });
                         chickens[i].active = false;
                         --active_chickens;
-                        fprintf_s(stdout, "active_chickens %d\n", active_chickens);
+                        miniprintfvalloc("%d", active_chickens);
                         if (active_chickens == 0) {
                             level_finished = true;
                         }
@@ -86,14 +88,14 @@ void ChickenHandler::update() {
 void ChickenHandler::render() {
     for (int i = 0; i < MAX_CHICKENS; ++i) {
         if (chickens[i].active) {
-            SDL_Rect spriteRect = {
+            SDL_FRect spriteRect = {
                chickens[i].draw_position.x, chickens[i].draw_position.y,
                Texture::texture_rect[Texture::ID::SPR_CHICKEN].w,
                Texture::texture_rect[Texture::ID::SPR_CHICKEN].h
             };
 
             //fprintf_s(stdout, "bullet: %d, %d, %d, %d\n", spriteRect.x, spriteRect.y, spriteRect.w, spriteRect.h);
-            SDL_RenderCopy(game->getRenderer(), Texture::atlas_texture,
+            SDL_RenderTexture(game->getRenderer(), Texture::atlas_texture,
                 &Texture::texture_rect[Texture::ID::SPR_CHICKEN],
                 &spriteRect);
         }

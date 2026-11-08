@@ -1,4 +1,5 @@
- #include "../include/BulletSpawner.h"
+#line 2 "BulletSpawner.cpp"
+#include "../include/BulletSpawner.h"
 #include "../include/CI72Locker.h"
 #include "../include/Texture.h"
 #include <stdio.h>
@@ -56,26 +57,26 @@ void BulletSpawner::render() {
     for (int i = 0; i < MAX_BULLETS; ++i) {
         if (bullets[i].active) {
             if (!bullets[i].isCash) {
-                SDL_Rect spriteRect = {
+                SDL_FRect spriteRect = {
                    bullets[i].position.x, bullets[i].position.y,
                    (Texture::texture_rect[((bullets[i].isEgg) ? Texture::ID::SPR_EGG : Texture::ID::SPR_ION)].w),
                    (Texture::texture_rect[((bullets[i].isEgg) ? Texture::ID::SPR_EGG : Texture::ID::SPR_ION)].h)
                 };
 
                 //fprintf_s(stdout, "bullet: %d, %d, %d, %d\n", spriteRect.x, spriteRect.y, spriteRect.w, spriteRect.h);
-                SDL_RenderCopy(game->getRenderer(), Texture::atlas_texture,
+                SDL_RenderTexture(game->getRenderer(), Texture::atlas_texture,
                     ((bullets[i].isEgg) ? &Texture::texture_rect[Texture::ID::SPR_EGG] : &Texture::texture_rect[Texture::ID::SPR_ION]),
                     &spriteRect);
             }
             else {
-                SDL_Rect spriteRect = {
+                SDL_FRect spriteRect = {
                    bullets[i].position.x, bullets[i].position.y,
                    Texture::texture_rect[Texture::ID::SPR_CASH_0 + animation_frame].w,
                    Texture::texture_rect[Texture::ID::SPR_CASH_0 + animation_frame].h
                 };
 
                 //fprintf_s(stdout, "bullet: %d, %d, %d, %d\n", spriteRect.x, spriteRect.y, spriteRect.w, spriteRect.h);
-                SDL_RenderCopy(game->getRenderer(), Texture::atlas_texture,
+                SDL_RenderTexture(game->getRenderer(), Texture::atlas_texture,
                     &Texture::texture_rect[Texture::ID::SPR_CASH_0 + animation_frame],
                     &spriteRect);
             }
