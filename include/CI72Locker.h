@@ -13,14 +13,22 @@
 #include "../include/MusicPlayer.h"
 #include "../include/LevelLoader.h"
 #include "../include/DickClark.h"
-
+#include "../include/MishDiscordActivity.h"
 
 #define EMERGENCY_CTRL 1
 #define EMERGENCY_7 2
 #define EMERGENCY_2 4
+#define EMERGENCY 7
+
+#define BIGCHICKEN_C 1
+#define BIGCHICKEN_H 2
+#define BIGCHICKEN_K 4
+#define BIGCHICKEN_N 8
+#define BIGCHICKEN 15
 
 struct Input {
     int emergency{ 0 };
+    int bigchicken{ 0 };
     bool mouseHeld{ false };
     SDL_FPoint mousePosition;
     bool exit{ false };
@@ -47,6 +55,7 @@ public:
     ChickenHandler chicken_handler;
     DickClark dickclark_handler;
     LevelLoader level_loader;
+    MishDiscordActivity mishdiscordactivity;
 
 	Game();
 	~Game();

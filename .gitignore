@@ -8,3 +8,5 @@
 *.sln
 *.vcxproj
 *.vcxproj.*
+/Release
+/Debug

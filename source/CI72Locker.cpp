@@ -13,8 +13,7 @@
 #include <time.h>
 
 
-Game *game = nullptr;
-
+Game* game = nullptr;
 
 Game::Game() : window_dimensions({0, 0, 800, 600}), renderer(nullptr), window(nullptr), shutdown(false) /*, font(nullptr), font_impact(nullptr)*/ {
     if (!game) {
@@ -127,7 +126,8 @@ int Game::input() { // Зачем я возвращал инт? О чём я д�
             if (evt.key.key == SDLK_2 || evt.key.key == SDLK_KP_2) {
                 input_state.emergency |= EMERGENCY_2;
             }
-            if ((input_state.emergency & (EMERGENCY_2 | EMERGENCY_7 | EMERGENCY_CTRL)) == 7) {
+            if ((input_state.emergency & EMERGENCY) == EMERGENCY) {
+                fprintf_s(stdout, "Called emergency quit\n");
                 input_state.exit = true;
             }
             else {
@@ -175,6 +175,9 @@ int Game::input() { // Зачем я возвращал инт? О чём я д�
             }
             if (evt.key.key == SDLK_KP_ENTER || evt.key.key == SDLK_RETURN) {
                 input_state.enter = false;
+            }
+            if (evt.key.keysym.sym == SDLK_SPACE || evt.key.keysym.sym == SDLK_z) {
+                input_state.keyboardHeld = false;
             }
             break;
         case SDL_EVENT_WINDOW_FOCUS_LOST:
@@ -238,6 +241,7 @@ int Game::update(float delta) {
     }
 
     level_loader.update();
+    mishdiscordactivity.update();
 
     return 0;
 }
